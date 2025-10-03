@@ -1,4 +1,120 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No: 250541037  
+AD-SOYAD: MUHAMMED CENGİZ
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+
+NETWORK EDİNME PLANI
+
+import java.util.*;
+
+class Kisi {
+    String isim;
+    String pozisyon;
+    String iletisimBilgisi;
+
+    Kisi(String isim, String pozisyon, String iletisimBilgisi) {
+        this.isim = isim;
+        this.pozisyon = pozisyon;
+        this.iletisimBilgisi = iletisimBilgisi;
+    }
+
+    @Override
+    public String toString() {
+        return isim + " (" + pozisyon + ") - " + iletisimBilgisi;
+    }
+}
+
+class NetworkEdinmeAlgoritmasi {
+    List<Kisi> mevcutNetwork = new ArrayList<>();
+    Random rnd = new Random();
+
+    void networkEdin() {
+        System.out.println("=== Network Edinme Algoritması Başladı ===");
+
+        // 1. Hedef Belirleme ve Ön Hazırlık
+        String amac = hedefBelirle();
+        List<String> kisaVadeliHedefler = kisaVadeliHedefleriYaz();
+        List<String> uzunVadeliHedefler = uzunVadeliHedefleriYaz();
+        List<String> gucluYonler = gucluYonleriniAnalizEt();
+        List<String> gelistirilecekYonler = zayifYonleriniAnalizEt();
+        String tanitim = kendiniTanitimOlustur();
+        dijitalProfilleriGuncelle();
+
+        // 2. Hedef Kitle ve Kanalları Belirleme
+        List<Kisi> hedefKisiler = hedefKitleyiBelirle();
+        List<String> kanallar = networkKanallariniListele();
+
+        // 3. Bilgi Toplama ve Ön Araştırma
+        for (Kisi kisi : hedefKisiler) {
+            kisiProfiliIncele(kisi);
+            List<String> ortakNoktalar = ortakNoktalariBul(kisi);
+        }
+
+        // 4. İlk Temas Kurma
+        for (Kisi kisi : hedefKisiler) {
+            String mesaj = kisiselMesajHazirla(kisi);
+            uygunKanaldanIletisimKur(kisi, mesaj);
+            mevcutNetwork.add(kisi); // İlk temastan sonra network'e ekle
+        }
+
+        // 5. İlişkiyi Geliştirme ve Güven Oluşturma
+        for (Kisi kisi : mevcutNetwork) {
+            iliskiyiDevamEttir(kisi);
+            duzenliTemasKur(kisi);
+            faydaliIcerikPaylas(kisi);
+            ortakProjelerdeYerAl(kisi);
+        }
+
+        // 6. Networkü Sürdürülebilir Hale Getirme
+        periyodikGozdenGecir();
+        yeniBaglantilarEkle();
+        networkeKatkiSagla();
+
+        // 7. Takip ve Geri Bildirim
+        for (Kisi kisi : mevcutNetwork) {
+            geribildirimAl(kisi);
+        }
+        stratejiniGuncelle();
+
+        System.out.println("=== Network Edinme Algoritması Tamamlandı ===");
+    }
+
+    // Yardımcı metotlar (dummy implementasyonlar)
+    String hedefBelirle() { return "Kariyer Network"; }
+    List<String> kisaVadeliHedefleriYaz() { return Arrays.asList("LinkedIn Bağlantısı", "Seminer Katılımı"); }
+    List<String> uzunVadeliHedefleriYaz() { return Arrays.asList("Mentor Bulma", "Profesyonel İmaj"); }
+    List<String> gucluYonleriniAnalizEt() { return Arrays.asList("İletişim", "Sunum"); }
+    List<String> zayifYonleriniAnalizEt() { return Arrays.asList("Takım Çalışması"); }
+    String kendiniTanitimOlustur() { return "Merhaba, ben Muhammed, yazılım mühendisiyim."; }
+    void dijitalProfilleriGuncelle() { System.out.println("Dijital profiller güncellendi."); }
+    List<Kisi> hedefKitleyiBelirle() {
+        return Arrays.asList(
+            new Kisi("Ahmet Yılmaz", "Mühendis", "ahmet@example.com"),
+            new Kisi("Ayşe Demir", "Yönetici", "ayse@example.com"),
+            new Kisi("Mehmet Kaya", "Danışman", "mehmet@example.com")
+        );
+    }
+    List<String> networkKanallariniListele() { return Arrays.asList("LinkedIn", "E-posta", "Etkinlikler"); }
+    void kisiProfiliIncele(Kisi kisi) { System.out.println("Profil inceleniyor: " + kisi); }
+    List<String> ortakNoktalariBul(Kisi kisi) { return Arrays.asList("Yazılım", "Etkinlik"); }
+    String kisiselMesajHazirla(Kisi kisi) { return "Merhaba " + kisi.isim + ", tanışmak isterim."; }
+    void uygunKanaldanIletisimKur(Kisi kisi, String mesaj) {
+        System.out.println("İletişim kuruldu: " + kisi.isim + " mesaj: " + mesaj);
+    }
+    void iliskiyiDevamEttir(Kisi kisi) { System.out.println("İlişki devam ettiriliyor: " + kisi.isim); }
+    void duzenliTemasKur(Kisi kisi) { System.out.println("Düzenli temas: " + kisi.isim); }
+    void faydaliIcerikPaylas(Kisi kisi) { System.out.println("Faydalı içerik paylaşıldı: " + kisi.isim); }
+    void ortakProjelerdeYerAl(Kisi kisi) { System.out.println("Ortak projelerde yer alındı: " + kisi.isim); }
+    void periyodikGozdenGecir() { System.out.println("Periyodik gözden geçirme yapıldı."); }
+    void yeniBaglantilarEkle() { System.out.println("Yeni bağlantılar eklendi."); }
+    void networkeKatkiSagla() { System.out.println("Networke katkı sağlandı."); }
+    void geribildirimAl(Kisi kisi) { System.out.println("Geri bildirim alındı: " + kisi.isim); }
+    void stratejiniGuncelle() { System.out.println("Strateji güncellendi."); }
+}
+
+public class NetworkSimulasyonu {
+    public static void main(String[] args) {
+        NetworkEdinmeAlgoritmasi algoritma = new NetworkEdinmeAlgoritmasi();
+        algoritma.networkEdin();
+    }
+}
