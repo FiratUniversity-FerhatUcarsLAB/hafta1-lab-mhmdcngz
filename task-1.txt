@@ -1,4 +1,110 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No: 250541037
+AD-SOYAD: MUHAMMED CENGİZ
 
-Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz: 
+
+MÜKEMMEL OMLET YAPMA ALGORİTMASI
+
+import java.util.*;
+
+class Yumurta {}
+
+class Tava {
+    String tip; int cap;
+    Tava(String tip, int cap){ this.tip = tip; this.cap = cap; }
+    void isit(String seviye){ System.out.println("Tava " + seviye + " seviyesinde ısınıyor"); }
+    void ekle(String malzeme){ System.out.println(malzeme + " tavaya eklendi"); }
+    void dok(String karisim){ System.out.println("Karışım tavaya döküldü: " + karisim); }
+    void salla(){ System.out.println("Tava sallandı"); }
+    boolean altiPisti(){ return true; }
+    boolean ustuAkiskan(){ return true; }
+    void kisikAteseAl(){ System.out.println("Tava kısık ateşe alındı"); }
+    void ekleDolgular(List<String> dolgular, String not){ System.out.println(dolgular + " (" + not + ") tavaya eklendi"); }
+    void pisir(int saniye1, int saniye2){ System.out.println("Omlet pişiriliyor (" + saniye1 + "-" + saniye2 + " saniye)"); }
+    void alTabaga(Tabak t){ System.out.println("Omlet tabağa alındı"); }
+}
+
+class Spatula {
+    String tip;
+    Spatula(String tip){ this.tip = tip; }
+    void kenarlardanOrtayaCek(Tava t){ System.out.println("Spatula ile kenarlardan ortaya çekildi"); }
+    void katlaOmlet(Tava t, String not){ System.out.println("Omlet katlandı: " + not); }
+}
+
+class Kase {
+    List<Object> malzemeler = new ArrayList<>();
+    void ekle(Object o){ malzemeler.add(o); System.out.println(o + " kaseye eklendi"); }
+    String karisim(){ return malzemeler.toString(); }
+}
+
+class Cirpici {
+    void cirp(Kase k){ System.out.println("Malzemeler çırpıldı: " + k.karisim()); }
+}
+
+class Tabak {
+    void serp(String malzeme){ System.out.println(malzeme + " tabak üzerine serpiştirildi"); }
+    void servisEt(){ System.out.println("Omlet servis edildi!"); }
+}
+
+public class OmletYapimi {
+    
+    static List<Yumurta> YumurtalariKirilipKontrolEt(int adet){
+        List<Yumurta> yumurtalar = new ArrayList<>();
+        for(int i=0; i<adet; i++){
+            yumurtalar.add(new Yumurta());
+        }
+        System.out.println(adet + " yumurta kırıldı ve kontrol edildi");
+        return yumurtalar;
+    }
+
+    static List<String> DolguMalzemeleriniHazirla(List<String> malzemeler){
+        System.out.println("Dolgu malzemeleri hazırlandı: " + malzemeler);
+        return new ArrayList<>(malzemeler);
+    }
+
+    public static void main(String[] args) {
+        // 1. Malzemeleri Hazırla
+        List<String> malzemeler = Arrays.asList("yumurta", "tereyag", "tuz", "karabiber");
+        List<String> istegeBagliMalzemeler = Arrays.asList("sut", "peynir", "biber", "taze otlar");
+
+        // 2. Ekipmanı Hazırla
+        Tava tava = new Tava("yapışmaz", 22);
+        Spatula spatula = new Spatula("silikon");
+        Kase karistirmaKabi = new Kase();
+        Cirpici cirpici = new Cirpici();
+        Tabak servisTabagi = new Tabak();
+
+        // 3. Yumurtaları Hazırla
+        List<Yumurta> yumurtalar = YumurtalariKirilipKontrolEt(3);
+        karistirmaKabi.ekle(yumurtalar);
+        karistirmaKabi.ekle("tuz");
+        karistirmaKabi.ekle("karabiber");
+        if (istegeBagliMalzemeler.contains("sut")) karistirmaKabi.ekle("sut");
+        cirpici.cirp(karistirmaKabi);
+
+        // 4. Dolgu Malzemelerini Hazırla
+        List<String> dolgular = DolguMalzemeleriniHazirla(istegeBagliMalzemeler);
+
+        // 5. Tavayı Hazırla ve Yağı Ekleyin
+        tava.isit("orta-dusuk");
+        tava.ekle("tereyag");
+
+        // 6. Yumurtayı Tavaya Dök
+        tava.dok(karistirmaKabi.karisim());
+        spatula.kenarlardanOrtayaCek(tava);
+        tava.salla();
+        if (tava.altiPisti()) tava.kisikAteseAl();
+
+        // 7. Dolgu Malzemelerini Ekle
+        if (tava.ustuAkiskan()) tava.ekleDolgular(dolgular, "bir yarisi");
+
+        // 8. Omleti Katla ve Sonlandır
+        spatula.katlaOmlet(tava, "dolgulu yarinin uzerine");
+        tava.pisir(15, 30);
+        tava.alTabaga(servisTabagi);
+
+        // 9. Servis Et
+        servisTabagi.serp("karabiber");
+        servisTabagi.servisEt();
+    }
+}
