@@ -1,4 +1,89 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No: 250541037
+AD-SOYAD: MUHAMMED CENGİZ
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+
+TELEFON REHBERİNİ ALFABETİK DÜZENLEME
+
+import java.util.*;
+
+class Kisi {
+    String isim;
+    String telefon;
+
+    Kisi(String isim, String telefon) {
+        this.isim = isim;
+        this.telefon = telefon;
+    }
+
+    @Override
+    public String toString() {
+        return isim + " - " + telefon;
+    }
+}
+
+class Rehber {
+    List<Kisi> kisiler;
+
+    Rehber() {
+        kisiler = new ArrayList<>();
+    }
+
+    void alfabetikSirala() {
+        // 1. Boşlukları temizle
+        for (Kisi kisi : kisiler) {
+            kisi.isim = trim(kisi.isim);
+        }
+
+        // 2. Bubble Sort ile alfabetik sıralama
+        int n = kisiler.size();
+        boolean degisti;
+        do {
+            degisti = false;
+            for (int i = 0; i < n - 1; i++) {
+                Kisi birinci = kisiler.get(i);
+                Kisi ikinci = kisiler.get(i + 1);
+
+                String isim1 = birinci.isim.toLowerCase();
+                String isim2 = ikinci.isim.toLowerCase();
+
+                if (isim1.compareTo(isim2) > 0) {
+                    // Swap işlemi
+                    kisiler.set(i, ikinci);
+                    kisiler.set(i + 1, birinci);
+                    degisti = true;
+                }
+            }
+        } while (degisti);
+    }
+
+    private String trim(String metin) {
+        if (metin == null) return "";
+        return metin.trim();
+    }
+
+    void yazdir() {
+        for (Kisi k : kisiler) {
+            System.out.println(k);
+        }
+    }
+}
+
+public class TelefonRehberi {
+    public static void main(String[] args) {
+        Rehber rehber = new Rehber();
+        rehber.kisiler.add(new Kisi("Ahmet", "555-1234"));
+        rehber.kisiler.add(new Kisi("mehmet", "555-5678"));
+        rehber.kisiler.add(new Kisi("Zeynep", "555-9012"));
+        rehber.kisiler.add(new Kisi("ayşe", "555-3456"));
+
+        System.out.println("Sıralama öncesi:");
+        rehber.yazdir();
+
+        rehber.alfabetikSirala();
+
+        System.out.println("\nSıralama sonrası:");
+        rehber.yazdir();
+    }
+}
+
