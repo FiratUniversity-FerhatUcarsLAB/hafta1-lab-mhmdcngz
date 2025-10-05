@@ -5,95 +5,54 @@ Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya e
 
 RENKLERİ KARIŞTIRARAK HEDEF RENGİ ELDE ETME
 
-import java.util.*;
+1. BAŞLA
 
-class Renk {
-    int R, G, B;
+2. Kullanıcıdan hedef rengi RGB (Red, Green, Blue) olarak al
+   - INPUT: hedef_R, hedef_G, hedef_B
 
-    Renk() {}
-    Renk(int R, int G, int B) { this.R = R; this.G = G; this.B = B; }
+3. Kullanıcıdan kullanılabilir ana renklerin listesini al (ör: "kırmızı", "yeşil", "mavi", "sarı" vb.)
+   - Her bir ana rengin RGB karşılığını bir listeye kaydet: renk_listesi
 
-    @Override
-    public String toString() {
-        return "(" + R + "," + G + "," + B + ")";
-    }
-}
+4. Kullanıcıya “başlangıç rengi seç” sorusu sor
+   - INPUT: secilen_reng (ör: “kırmızı”)
+   - secili_karisim_R, secili_karisim_G, secili_karisim_B = secilen_reng’in RGB değerleri
 
-class RenkKaristirici {
-    List<Renk> renkler;
-    Renk hedefRenk;
-    double esik = 5.0;
-    Random rnd = new Random();
+5. TEKRARLA (sonsuz döngü)
+   a. Eğer (secili_karisim_R == hedef_R) VE (secili_karisim_G == hedef_G) VE (secili_karisim_B == hedef_B) ise:
+        - "Hedef renge ulaşıldı!" mesajı ver
+        - Son karışımı ekrana yazdır
+        - DÖNGÜDEN ÇIK
+   b. Aksi halde:
+        - Karışım ile hedef arasındaki farkı hesapla:
+            fark = sqrt( (secili_karisim_R - hedef_R)^2 + (secili_karisim_G - hedef_G)^2 + (secili_karisim_B - hedef_B)^2 )
+        - Eğer fark < tolerans (ör: 5) ise:
+            - "Hedef renge çok yaklaşıldı!" mesajı ver
+            - Son karışımı ekrana yazdır
+            - DÖNGÜDEN ÇIK
 
-    RenkKaristirici(List<Renk> renkler, Renk hedefRenk) {
-        this.renkler = renkler;
-        this.hedefRenk = hedefRenk;
-    }
+   c. Kullanıcıdan karışıma eklemek üzere bir renk seçmesini iste:
+        - INPUT: eklenecek_renk (ör: “mavi”)
+        - eklenecek_renk_R, eklenecek_renk_G, eklenecek_renk_B = seçilen rengin RGB değerleri
 
-    void hedefRengiBul() {
-        int n = renkler.size();
-        double[] agirliklar = new double[n];
-        for (int i = 0; i < n; i++) agirliklar[i] = 1.0 / n;
+   d. Kullanıcıdan bu rengi hangi oranda eklemek istediğini sor (ör: 0.1 ile 1.0 arası bir sayı)
+        - INPUT: oran
 
-        boolean hedefeUlasildi = false;
-        int adim = 0;
-        while (!hedefeUlasildi && adim < 10000) { // max adım sınırlaması
-            adim++;
-            Renk karisim = agirlikliKaristir(renkler, agirliklar);
-            double fark = renkFarki(karisim, hedefRenk);
+   e. Yeni karışım rengini hesapla:
+        - toplam_agirlik = 1 + oran
+        - yeni_karisim_R = (secili_karisim_R * 1 + eklenecek_renk_R * oran) / toplam_agirlik
+        - yeni_karisim_G = (secili_karisim_G * 1 + eklenecek_renk_G * oran) / toplam_agirlik
+        - yeni_karisim_B = (secili_karisim_B * 1 + eklenecek_renk_B * oran) / toplam_agirlik
 
-            if (fark < esik) {
-                hedefeUlasildi = true;
-                System.out.println("Ulaşılan karışım rengi: " + karisim);
-                System.out.println("Kullanılan ağırlıklar: " + Arrays.toString(agirliklar));
-            } else {
-                agirliklar = agirliklariGuncelle(agirliklar);
-            }
-        }
-        if (!hedefeUlasildi) System.out.println("Hedef renk bulunamadı.");
-    }
+   f. Yeni karışım değerlerini güncelle:
+        - secili_karisim_R = yeni_karisim_R
+        - secili_karisim_G = yeni_karisim_G
+        - secili_karisim_B = yeni_karisim_B
 
-    Renk agirlikliKaristir(List<Renk> renkler, double[] agirliklar) {
-        double toplamR = 0, toplamG = 0, toplamB = 0;
-        for (int i = 0; i < renkler.size(); i++) {
-            toplamR += renkler.get(i).R * agirliklar[i];
-            toplamG += renkler.get(i).G * agirliklar[i];
-            toplamB += renkler.get(i).B * agirliklar[i];
-        }
-        return new Renk((int)Math.round(toplamR), (int)Math.round(toplamG), (int)Math.round(toplamB));
-    }
+   g. Şu ana kadar yapılan karışımları ve mevcut karışımın RGB değerlerini kullanıcıya göster
 
-    double renkFarki(Renk a, Renk b) {
-        return Math.sqrt(Math.pow(a.R - b.R, 2) + Math.pow(a.G - b.G, 2) + Math.pow(a.B - b.B, 2));
-    }
+   h. Kullanıcıya “devam etmek istiyor musunuz?” sorusu sor
+        - INPUT: cevap
+        - Eğer cevap “hayır” ise DÖNGÜDEN ÇIK
 
-    double[] agirliklariGuncelle(double[] agirliklar) {
-        // Basit rastgele küçük değişiklik
-        int idx = rnd.nextInt(agirliklar.length);
-        double delta = (rnd.nextDouble() - 0.5) * 0.1; // -0.05 ile +0.05 arasında değiştir
-        agirliklar[idx] += delta;
-
-        // normalize et (toplam = 1)
-        double toplam = 0;
-        for (double w : agirliklar) toplam += w;
-        for (int i = 0; i < agirliklar.length; i++) agirliklar[i] /= toplam;
-
-        return agirliklar;
-    }
-}
-
-public class RenkKaristirmaSimulasyonu {
-    public static void main(String[] args) {
-        List<Renk> baslangicRenkleri = Arrays.asList(
-            new Renk(255,0,0), // kırmızı
-            new Renk(0,255,0), // yeşil
-            new Renk(0,0,255)  // mavi
-        );
-
-        Renk hedef = new Renk(128,128,0); // örnek hedef renk
-
-        RenkKaristirici karistirici = new RenkKaristirici(baslangicRenkleri, hedef);
-        karistirici.hedefRengiBul();
-    }
-}
-
+6. "Algoritma sona erdi." mesajı ver
+7. BİTİR
