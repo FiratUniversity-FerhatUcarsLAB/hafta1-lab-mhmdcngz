@@ -1,5 +1,5 @@
 Öğrenci No: 250541037
-AD-SOYAD: MUHAMMED CENGİZ
+AD-SOYAD: MUHAMMED CENGİZ 
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
 
