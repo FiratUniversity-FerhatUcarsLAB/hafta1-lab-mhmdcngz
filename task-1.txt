@@ -5,106 +5,85 @@ Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya e
 
 MÜKEMMEL OMLET YAPMA ALGORİTMASI
 
-import java.util.*;
+ALGORITMA MukemmelOmletYap
 
-class Yumurta {}
+    // --- 1. Başlangıç Hazırlıkları ---
+    BAŞLA
+    malzemeler = ["yumurta", "tuz", "karabiber", "tereyağı", "süt veya krema"]
+    ekipman = ["tava", "çatal veya çırpıcı", "kase", "spatula"]
 
-class Tava {
-    String tip; int cap;
-    Tava(String tip, int cap){ this.tip = tip; this.cap = cap; }
-    void isit(String seviye){ System.out.println("Tava " + seviye + " seviyesinde ısınıyor"); }
-    void ekle(String malzeme){ System.out.println(malzeme + " tavaya eklendi"); }
-    void dok(String karisim){ System.out.println("Karışım tavaya döküldü: " + karisim); }
-    void salla(){ System.out.println("Tava sallandı"); }
-    boolean altiPisti(){ return true; }
-    boolean ustuAkiskan(){ return true; }
-    void kisikAteseAl(){ System.out.println("Tava kısık ateşe alındı"); }
-    void ekleDolgular(List<String> dolgular, String not){ System.out.println(dolgular + " (" + not + ") tavaya eklendi"); }
-    void pisir(int saniye1, int saniye2){ System.out.println("Omlet pişiriliyor (" + saniye1 + "-" + saniye2 + " saniye)"); }
-    void alTabaga(Tabak t){ System.out.println("Omlet tabağa alındı"); }
-}
+    YAZDIR "Omlet yapımına başlıyoruz..."
 
-class Spatula {
-    String tip;
-    Spatula(String tip){ this.tip = tip; }
-    void kenarlardanOrtayaCek(Tava t){ System.out.println("Spatula ile kenarlardan ortaya çekildi"); }
-    void katlaOmlet(Tava t, String not){ System.out.println("Omlet katlandı: " + not); }
-}
+    // --- 2. Malzeme Kontrolü ---
+    HER malzeme İÇİN malzemeler:
+        EĞER malzeme mevcut değilse
+            YAZDIR malzeme + " eksik, temin edilmesi gerekiyor."
+            ÇIKIŞ YAP
+        SON
+    SON
 
-class Kase {
-    List<Object> malzemeler = new ArrayList<>();
-    void ekle(Object o){ malzemeler.add(o); System.out.println(o + " kaseye eklendi"); }
-    String karisim(){ return malzemeler.toString(); }
-}
+    // --- 3. Yumurta Kontrolü ---
+    yumurtaSayisi ← 3
+    YAZDIR yumurtaSayisi + " yumurta seçildi."
 
-class Cirpici {
-    void cirp(Kase k){ System.out.println("Malzemeler çırpıldı: " + k.karisim()); }
-}
+    HER yumurta İÇİN yumurtaSayisi:
+        EĞER yumurta taze değilse
+            YAZDIR "Bayat yumurta tespit edildi. Yeni yumurta seçiliyor..."
+            yumurta değiştir
+        SON
+    SON
 
-class Tabak {
-    void serp(String malzeme){ System.out.println(malzeme + " tabak üzerine serpiştirildi"); }
-    void servisEt(){ System.out.println("Omlet servis edildi!"); }
-}
+    // --- 4. Karışımı Hazırlama ---
+    YAZDIR "Yumurtalar kırılıyor..."
+    karisim ← yumurtalarıKır() + tuz + karabiber + az miktarda süt
 
-public class OmletYapimi {
-    
-    static List<Yumurta> YumurtalariKirilipKontrolEt(int adet){
-        List<Yumurta> yumurtalar = new ArrayList<>();
-        for(int i=0; i<adet; i++){
-            yumurtalar.add(new Yumurta());
-        }
-        System.out.println(adet + " yumurta kırıldı ve kontrol edildi");
-        return yumurtalar;
-    }
+    YAZDIR "Malzemeler karıştırılıyor..."
+    karıştırmaSüresi ← 0
 
-    static List<String> DolguMalzemeleriniHazirla(List<String> malzemeler){
-        System.out.println("Dolgu malzemeleri hazırlandı: " + malzemeler);
-        return new ArrayList<>(malzemeler);
-    }
+    WHILE karıştırmaSüresi < 30 saniye:
+        karıştır()
+        karıştırmaSüresi ← karıştırmaSüresi + 5
+    SON
 
-    public static void main(String[] args) {
-        // 1. Malzemeleri Hazırla
-        List<String> malzemeler = Arrays.asList("yumurta", "tereyag", "tuz", "karabiber");
-        List<String> istegeBagliMalzemeler = Arrays.asList("sut", "peynir", "biber", "taze otlar");
+    YAZDIR "Karışım hazır!"
 
-        // 2. Ekipmanı Hazırla
-        Tava tava = new Tava("yapışmaz", 22);
-        Spatula spatula = new Spatula("silikon");
-        Kase karistirmaKabi = new Kase();
-        Cirpici cirpici = new Cirpici();
-        Tabak servisTabagi = new Tabak();
+    // --- 5. Tava Hazırlığı ---
+    YAZDIR "Tava ısıtılıyor..."
+    tavaSıcaklık ← 0
 
-        // 3. Yumurtaları Hazırla
-        List<Yumurta> yumurtalar = YumurtalariKirilipKontrolEt(3);
-        karistirmaKabi.ekle(yumurtalar);
-        karistirmaKabi.ekle("tuz");
-        karistirmaKabi.ekle("karabiber");
-        if (istegeBagliMalzemeler.contains("sut")) karistirmaKabi.ekle("sut");
-        cirpici.cirp(karistirmaKabi);
+    WHILE tavaSıcaklık < 180 derece:
+        tavaSıcaklık ← tavaSıcaklık + 30
+        BEKLE 2 saniye
+    SON
 
-        // 4. Dolgu Malzemelerini Hazırla
-        List<String> dolgular = DolguMalzemeleriniHazirla(istegeBagliMalzemeler);
+    YAZDIR "Tava yeterince sıcak!"
+    tava ← tereyağıEkle(tava)
 
-        // 5. Tavayı Hazırla ve Yağı Ekleyin
-        tava.isit("orta-dusuk");
-        tava.ekle("tereyag");
+    // --- 6. Pişirme Aşaması ---
+    YAZDIR "Omlet karışımı tavaya dökülüyor..."
+    tavayaDök(karisim)
 
-        // 6. Yumurtayı Tavaya Dök
-        tava.dok(karistirmaKabi.karisim());
-        spatula.kenarlardanOrtayaCek(tava);
-        tava.salla();
-        if (tava.altiPisti()) tava.kisikAteseAl();
+    pişmeSeviyesi ← 0
 
-        // 7. Dolgu Malzemelerini Ekle
-        if (tava.ustuAkiskan()) tava.ekleDolgular(dolgular, "bir yarisi");
+    WHILE pişmeSeviyesi < 100:
+        EĞER altKısmıKızardı() ise
+            omletiKarıştır()
+        SON
+        BEKLE 5 saniye
+        pişmeSeviyesi ← pişmeSeviyesi + 20
+    SON
 
-        // 8. Omleti Katla ve Sonlandır
-        spatula.katlaOmlet(tava, "dolgulu yarinin uzerine");
-        tava.pisir(15, 30);
-        tava.alTabaga(servisTabagi);
+    // --- 7. Son Dokunuş ---
+    EĞER omletAltinRengiMi() ise
+        YAZDIR "Omlet mükemmel bir renkte!"
+    DEĞİLSE
+        YAZDIR "Biraz fazla pişmiş, ama yenebilir."
+    SON
 
-        // 9. Servis Et
-        servisTabagi.serp("karabiber");
-        servisTabagi.servisEt();
-    }
-}
+    // --- 8. Servis ---
+    YAZDIR "Omlet tabağa alınıyor..."
+    tabağaKoy(omlet)
+    YAZDIR "Afiyet olsun! 🍳"
+
+    BİTİR
+SON ALGORITMA
