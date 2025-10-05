@@ -5,116 +5,102 @@ Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya e
 
 NETWORK EDİNME PLANI
 
-import java.util.*;
+ALGORITMA: NETWORK EDİNME PLANI
 
-class Kisi {
-    String isim;
-    String pozisyon;
-    String iletisimBilgisi;
+Başla
 
-    Kisi(String isim, String pozisyon, String iletisimBilgisi) {
-        this.isim = isim;
-        this.pozisyon = pozisyon;
-        this.iletisimBilgisi = iletisimBilgisi;
-    }
+// 1. Hazırlık ve Hedef Belirleme
+1. Yazdır("Network edinme amacı nedir?")
+2. Amaç = KullanıcıdanGirdiAl()
+3. Eğer Amaç boş ise
+      Yazdır("Amaç belirtmeniz gereklidir.")
+      GOTO 2
+   Değilse
+      Yazdır("Belirlenen amaç: " + Amaç)
 
-    @Override
-    public String toString() {
-        return isim + " (" + pozisyon + ") - " + iletisimBilgisi;
-    }
-}
+// 2. Mevcut Network'ün Analizi
+4. Yazdır("Mevcut networkünüzde kimler var? (isimleri virgül ile ayırarak girin)")
+5. MevcutNetworkListesi = KullanıcıdanListeAl()
+6. Eğer MevcutNetworkListesi boş ise
+      Yazdır("Mevcut networkünüz bulunamadı, devam etmek ister misiniz? (evet/hayır)")
+      Cevap = KullanıcıdanGirdiAl()
+      Eğer Cevap == "hayır" ise
+          Bitir
+      Değilse
+          Yazdır("Devam ediliyor...")
 
-class NetworkEdinmeAlgoritmasi {
-    List<Kisi> mevcutNetwork = new ArrayList<>();
-    Random rnd = new Random();
+// 3. Hedef Kişi ve Kurumların Belirlenmesi
+7. Yazdır("Hedef sektör/alan nedir?")
+8. HedefSektor = KullanıcıdanGirdiAl()
+9. Yazdır("Hedef kişi ve kurumları girin (isimleri virgül ile ayırarak girin)")
+10. HedefKisilerListesi = KullanıcıdanListeAl()
+11. Eğer HedefKisilerListesi boş ise
+      Yazdır("Hedef kişi veya kurum belirtmeniz gereklidir.")
+      GOTO 9
 
-    void networkEdin() {
-        System.out.println("=== Network Edinme Algoritması Başladı ===");
+// 4. Networkte Olmayan Hedefleri Belirleme
+12. NetworkteOlmayanlar = []
+13. Her bir kisi in HedefKisilerListesi için
+      Eğer kisi MevcutNetworkListesi içinde yoksa
+          NetworkteOlmayanlar'e kisi ekle
+          Yazdır(kisi + " networkünüzde yok, eklenmeli.")
+      Değilse
+          Yazdır(kisi + " zaten networkünüzde var.")
 
-        // 1. Hedef Belirleme ve Ön Hazırlık
-        String amac = hedefBelirle();
-        List<String> kisaVadeliHedefler = kisaVadeliHedefleriYaz();
-        List<String> uzunVadeliHedefler = uzunVadeliHedefleriYaz();
-        List<String> gucluYonler = gucluYonleriniAnalizEt();
-        List<String> gelistirilecekYonler = zayifYonleriniAnalizEt();
-        String tanitim = kendiniTanitimOlustur();
-        dijitalProfilleriGuncelle();
+// 5. Bilgi Toplama ve Ön Hazırlık
+14. Her bir kisi in NetworkteOlmayanlar için
+      Yazdır(kisi + " hakkında LinkedIn, şirket web sitesi, ortak tanıdıklar gibi kaynaklardan bilgi toplanıyor.")
+      KisiBilgisi = BilgiTopla(kisi)
+      Eğer KisiBilgisi eksikse
+          Yazdır("Yeterli bilgi bulunamadı, manuel araştırma yapınız.")
+      Değilse
+          Yazdır("Bilgi toplandı: " + KisiBilgisi)
 
-        // 2. Hedef Kitle ve Kanalları Belirleme
-        List<Kisi> hedefKisiler = hedefKitleyiBelirle();
-        List<String> kanallar = networkKanallariniListele();
+// 6. Uygun Etkinlik ve Platformları Belirleme
+15. Yazdır("İlgili sektör için etkinlikler, konferanslar, seminerler ve sosyal platformlar araştırılıyor.")
+16. EtkinliklerListesi = EtkinlikAra(HedefSektor)
+17. Eğer EtkinliklerListesi boşsa
+      Yazdır("Uygun etkinlik bulunamadı. Online platformlara odaklanın.")
+   Değilse
+      Yazdır("Uygun etkinlikler: " + EtkinliklerListesi)
 
-        // 3. Bilgi Toplama ve Ön Araştırma
-        for (Kisi kisi : hedefKisiler) {
-            kisiProfiliIncele(kisi);
-            List<String> ortakNoktalar = ortakNoktalariBul(kisi);
-        }
+// 7. İletişim Yöntemleri Planlama
+18. Aktiviteler = ["LinkedIn daveti gönder", "Tanışma e-postası gönder", "Ortak etkinliğe katıl", "Ortak tanıdık ile tanışma ayarla", "Kahve buluşması teklif et"]
 
-        // 4. İlk Temas Kurma
-        for (Kisi kisi : hedefKisiler) {
-            String mesaj = kisiselMesajHazirla(kisi);
-            uygunKanaldanIletisimKur(kisi, mesaj);
-            mevcutNetwork.add(kisi); // İlk temastan sonra network'e ekle
-        }
+// 8. Her bir kisi için iletişim planı oluşturma ve işlemler
+19. Her bir kisi in NetworkteOlmayanlar için
+      Yazdır(kisi + " için iletişim planı hazırlanıyor.")
+      Her bir aktivite in Aktiviteler için
+          Eğer AktiviteDahaÖnceYapıldıMi(kisi, aktivite) == False ise
+              Yazdır(kisi + " için " + aktivite + " uygulanıyor.")
+              Basari = AktiviteyiUygula(kisi, aktivite)
+              Eğer Basari == True ise
+                  Yazdır(aktivite + " başarıyla uygulandı.")
+                  SonucuKaydet(kisi, aktivite, "başarılı")
+                  // Takip planı oluştur
+                  TakipZamani = TakipZamanıOner()
+                  Yazdır(TakipZamani + " tarihinde takip edilecek.")
+              Değilse
+                  Yazdır(aktivite + " başarısız oldu, tekrar denenecek veya alternatif yöntem seçilecek.")
+                  SonucuKaydet(kisi, aktivite, "başarısız")
+          Değilse
+              Yazdır(aktivite + " zaten daha önce denendi.")
 
-        // 5. İlişkiyi Geliştirme ve Güven Oluşturma
-        for (Kisi kisi : mevcutNetwork) {
-            iliskiyiDevamEttir(kisi);
-            duzenliTemasKur(kisi);
-            faydaliIcerikPaylas(kisi);
-            ortakProjelerdeYerAl(kisi);
-        }
+// 9. Takip ve Gelişim
+20. Her bir kisi in NetworkteOlmayanlar için
+      Eğer İletişimKurulduMu(kisi) == True ise
+          Yazdır(kisi + " ile iletişim kuruldu, ilişkiyi sürdürmek için takvim oluştur.")
+          TakipEtkinliğiEkle(kisi, TakipZamani)
+      Değilse
+          Yazdır(kisi + " ile henüz iletişim kurulamadı, alternatif yollar denenmeli.")
 
-        // 6. Networkü Sürdürülebilir Hale Getirme
-        periyodikGozdenGecir();
-        yeniBaglantilarEkle();
-        networkeKatkiSagla();
+// 10. Sonuçların Değerlendirilmesi ve Planın Güncellenmesi
+21. Yazdır("Network edinme süreci tamamlandı, sonuçlar değerlendiriliyor.")
+22. Sonuclar = SonuçlarıAnalizEt()
+23. Eğer Sonuclar başarılı ise
+      Yazdır("Network edinme planı başarıyla tamamlandı!")
+   Değilse
+      Yazdır("Bazı hedeflere ulaşılamadı. Sebepler analiz edilip plan güncellenmeli.")
+      Gerekirse GOTO 1
 
-        // 7. Takip ve Geri Bildirim
-        for (Kisi kisi : mevcutNetwork) {
-            geribildirimAl(kisi);
-        }
-        stratejiniGuncelle();
-
-        System.out.println("=== Network Edinme Algoritması Tamamlandı ===");
-    }
-
-    // Yardımcı metotlar (dummy implementasyonlar)
-    String hedefBelirle() { return "Kariyer Network"; }
-    List<String> kisaVadeliHedefleriYaz() { return Arrays.asList("LinkedIn Bağlantısı", "Seminer Katılımı"); }
-    List<String> uzunVadeliHedefleriYaz() { return Arrays.asList("Mentor Bulma", "Profesyonel İmaj"); }
-    List<String> gucluYonleriniAnalizEt() { return Arrays.asList("İletişim", "Sunum"); }
-    List<String> zayifYonleriniAnalizEt() { return Arrays.asList("Takım Çalışması"); }
-    String kendiniTanitimOlustur() { return "Merhaba, ben Muhammed, yazılım mühendisiyim."; }
-    void dijitalProfilleriGuncelle() { System.out.println("Dijital profiller güncellendi."); }
-    List<Kisi> hedefKitleyiBelirle() {
-        return Arrays.asList(
-            new Kisi("Ahmet Yılmaz", "Mühendis", "ahmet@example.com"),
-            new Kisi("Ayşe Demir", "Yönetici", "ayse@example.com"),
-            new Kisi("Mehmet Kaya", "Danışman", "mehmet@example.com")
-        );
-    }
-    List<String> networkKanallariniListele() { return Arrays.asList("LinkedIn", "E-posta", "Etkinlikler"); }
-    void kisiProfiliIncele(Kisi kisi) { System.out.println("Profil inceleniyor: " + kisi); }
-    List<String> ortakNoktalariBul(Kisi kisi) { return Arrays.asList("Yazılım", "Etkinlik"); }
-    String kisiselMesajHazirla(Kisi kisi) { return "Merhaba " + kisi.isim + ", tanışmak isterim."; }
-    void uygunKanaldanIletisimKur(Kisi kisi, String mesaj) {
-        System.out.println("İletişim kuruldu: " + kisi.isim + " mesaj: " + mesaj);
-    }
-    void iliskiyiDevamEttir(Kisi kisi) { System.out.println("İlişki devam ettiriliyor: " + kisi.isim); }
-    void duzenliTemasKur(Kisi kisi) { System.out.println("Düzenli temas: " + kisi.isim); }
-    void faydaliIcerikPaylas(Kisi kisi) { System.out.println("Faydalı içerik paylaşıldı: " + kisi.isim); }
-    void ortakProjelerdeYerAl(Kisi kisi) { System.out.println("Ortak projelerde yer alındı: " + kisi.isim); }
-    void periyodikGozdenGecir() { System.out.println("Periyodik gözden geçirme yapıldı."); }
-    void yeniBaglantilarEkle() { System.out.println("Yeni bağlantılar eklendi."); }
-    void networkeKatkiSagla() { System.out.println("Networke katkı sağlandı."); }
-    void geribildirimAl(Kisi kisi) { System.out.println("Geri bildirim alındı: " + kisi.isim); }
-    void stratejiniGuncelle() { System.out.println("Strateji güncellendi."); }
-}
-
-public class NetworkSimulasyonu {
-    public static void main(String[] args) {
-        NetworkEdinmeAlgoritmasi algoritma = new NetworkEdinmeAlgoritmasi();
-        algoritma.networkEdin();
-    }
-}
+Bitir
