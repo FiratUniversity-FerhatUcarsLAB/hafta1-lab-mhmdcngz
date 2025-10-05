@@ -5,75 +5,50 @@ Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya e
 
 SUDOKU ÇÖZME YAKLAŞIMI
 
-public class SudokuSolver {
-    int[][] board = {
-        {5,3,0,0,7,0,0,0,0},
-        {6,0,0,1,9,5,0,0,0},
-        {0,9,8,0,0,0,0,6,0},
-        {8,0,0,0,6,0,0,0,3},
-        {4,0,0,8,0,3,0,0,1},
-        {7,0,0,0,2,0,0,0,6},
-        {0,6,0,0,0,0,2,8,0},
-        {0,0,0,4,1,9,0,0,5},
-        {0,0,0,0,8,0,0,7,9}
-    };
+Fonksiyon ÇözSudoku(tahta):
+    Eğer BoşHucreBul(tahta) == YOK:
+        // Tahta tamamen dolu, çözüm bulundu
+        Döndür TRUE
 
-    public boolean solveSudoku() {
-        for (int row = 0; row < 9; row++) {
-            for (int col = 0; col < 9; col++) {
-                if (board[row][col] == 0) {
-                    for (int num = 1; num <= 9; num++) {
-                        if (isValid(row, col, num)) {
-                            board[row][col] = num;
-                            System.out.println("Deniyor: (" + row + "," + col + ") = " + num);
-                            if (solveSudoku()) return true;
-                            board[row][col] = 0; // geri izleme
-                            System.out.println("Geri al: (" + row + "," + col + ")");
-                        }
-                    }
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+    (satir, sutun) = BoşHucreBul(tahta)
 
-    public boolean isValid(int row, int col, int num) {
-        for (int i = 0; i < 9; i++) {
-            if (board[row][i] == num) return false;
-            if (board[i][col] == num) return false;
-        }
+    For sayı in 1..9:
+        Eğer GeçerliMi(tahta, satir, sutun, sayı):
+            tahta[satir][sutun] = sayı
 
-        int startRow = (row / 3) * 3;
-        int startCol = (col / 3) * 3;
-        for (int i = startRow; i < startRow + 3; i++) {
-            for (int j = startCol; j < startCol + 3; j++) {
-                if (board[i][j] == num) return false;
-            }
-        }
-        return true;
-    }
+            Eğer ÇözSudoku(tahta) == TRUE:
+                Döndür TRUE // Çözüm bulundu
 
-    public void printBoard() {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                System.out.print(board[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
+            // Geri al (backtrack)
+            tahta[satir][sutun] = 0
 
-    public static void main(String[] args) {
-        SudokuSolver solver = new SudokuSolver();
-        System.out.println("Başlangıç Sudoku:");
-        solver.printBoard();
+    // Hiçbir sayı uygun değilse
+    Döndür FALSE
 
-        if (solver.solveSudoku()) {
-            System.out.println("\nÇözülen Sudoku:");
-            solver.printBoard();
-        } else {
-            System.out.println("Bu Sudoku çözülemez!");
-        }
-    }
-}
+Fonksiyon BoşHucreBul(tahta):
+    For satir in 0..8:
+        For sutun in 0..8:
+            Eğer tahta[satir][sutun] == 0:
+                Döndür (satir, sutun)
+    Döndür YOK
 
+Fonksiyon GeçerliMi(tahta, satir, sutun, sayı):
+    // Satırda aynı sayı var mı?
+    For x in 0..8:
+        Eğer tahta[satir][x] == sayı:
+            Döndür FALSE
+
+    // Sütunda aynı sayı var mı?
+    For y in 0..8:
+        Eğer tahta[y][sutun] == sayı:
+            Döndür FALSE
+
+    // 3x3'lük kutuda aynı sayı var mı?
+    baslangicSatir = (satir // 3) * 3
+    baslangicSutun = (sutun // 3) * 3
+    For i in 0..2:
+        For j in 0..2:
+            Eğer tahta[baslangicSatir + i][baslangicSutun + j] == sayı:
+                Döndür FALSE
+
+    Döndür TRUE
