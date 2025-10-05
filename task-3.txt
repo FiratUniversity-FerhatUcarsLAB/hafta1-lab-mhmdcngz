@@ -5,85 +5,68 @@ Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya e
 
 TELEFON REHBERİNİ ALFABETİK DÜZENLEME
 
-import java.util.*;
+Algoritma: TelefonRehberiniAlfabetikSirala
 
-class Kisi {
-    String isim;
-    String telefon;
+// Girdi: Rehber - Kişi kayıtlarından oluşan bir dizi/liste (her kayıtta: isim, soyisim, telefon)
+// Çıktı: Alfabetik olarak sıralanmış rehber
 
-    Kisi(String isim, String telefon) {
-        this.isim = isim;
-        this.telefon = telefon;
-    }
+Başla
 
-    @Override
-    public String toString() {
-        return isim + " - " + telefon;
-    }
-}
+    // 1. Rehberin boş olup olmadığını kontrol et
+    Eğer Rehber'in uzunluğu = 0 ise
+        Yaz("Rehberde kayıt yok, sıralama yapılmayacak.")
+        Bitir
 
-class Rehber {
-    List<Kisi> kisiler;
+    // 2. Sıralama algoritması başlat (Bubble Sort örneğiyle)
+    n ← Rehber'in uzunluğu
 
-    Rehber() {
-        kisiler = new ArrayList<>();
-    }
+    // Dış döngü: Listenin başından sonuna kadar tekrar et
+    i ← 0
+    Tekrar i < n-1 olduğu sürece
+        // İç döngü: Her seferinde dizinin sonuna kadar ilerle, karşılaştırma yap
+        j ← 0
+        Tekrar j < n-i-1 olduğu sürece
 
-    void alfabetikSirala() {
-        // 1. Boşlukları temizle
-        for (Kisi kisi : kisiler) {
-            kisi.isim = trim(kisi.isim);
-        }
+            // 3. Karşılaştırılacak iki kayıt seç
+            kisi1 ← Rehber[j]
+            kisi2 ← Rehber[j+1]
 
-        // 2. Bubble Sort ile alfabetik sıralama
-        int n = kisiler.size();
-        boolean degisti;
-        do {
-            degisti = false;
-            for (int i = 0; i < n - 1; i++) {
-                Kisi birinci = kisiler.get(i);
-                Kisi ikinci = kisiler.get(i + 1);
+            // 4. Kayıtların isimlerini karşılaştır
+            // Not: Büyük/küçük harf farkını kaldırmak için hepsini küçük harfe çeviriyoruz
+            isim1 ← KüçükHarfeCevir(kisi1.isim)
+            isim2 ← KüçükHarfeCevir(kisi2.isim)
 
-                String isim1 = birinci.isim.toLowerCase();
-                String isim2 = ikinci.isim.toLowerCase();
+            // 5. Eğer birinci isim ikinci isimden sonra geliyorsa, yer değiştir
+            Eğer isim1 > isim2 ise
+                // Yer değiştir
+                temp ← Rehber[j]
+                Rehber[j] ← Rehber[j+1]
+                Rehber[j+1] ← temp
 
-                if (isim1.compareTo(isim2) > 0) {
-                    // Swap işlemi
-                    kisiler.set(i, ikinci);
-                    kisiler.set(i + 1, birinci);
-                    degisti = true;
-                }
-            }
-        } while (degisti);
-    }
+            // 6. Eğer isimler aynıysa, soyisimleri karşılaştır
+            Değilse Eğer isim1 = isim2 ise
+                soyisim1 ← KüçükHarfeCevir(kisi1.soyisim)
+                soyisim2 ← KüçükHarfeCevir(kisi2.soyisim)
 
-    private String trim(String metin) {
-        if (metin == null) return "";
-        return metin.trim();
-    }
+                Eğer soyisim1 > soyisim2 ise
+                    temp ← Rehber[j]
+                    Rehber[j] ← Rehber[j+1]
+                    Rehber[j+1] ← temp
+                SonEğer
+            SonEğer
 
-    void yazdir() {
-        for (Kisi k : kisiler) {
-            System.out.println(k);
-        }
-    }
-}
+            j ← j + 1
+        SonTekrar
 
-public class TelefonRehberi {
-    public static void main(String[] args) {
-        Rehber rehber = new Rehber();
-        rehber.kisiler.add(new Kisi("Ahmet", "555-1234"));
-        rehber.kisiler.add(new Kisi("mehmet", "555-5678"));
-        rehber.kisiler.add(new Kisi("Zeynep", "555-9012"));
-        rehber.kisiler.add(new Kisi("ayşe", "555-3456"));
+        i ← i + 1
+    SonTekrar
 
-        System.out.println("Sıralama öncesi:");
-        rehber.yazdir();
+    // 7. Sıralama tamamlandıktan sonra rehberi ekrana yazdır
+    Yaz("Sıralanmış Telefon Rehberi:")
+    k ← 0
+    Tekrar k < n olduğu sürece
+        Yaz("İsim: ", Rehber[k].isim, " Soyisim: ", Rehber[k].soyisim, " Telefon: ", Rehber[k].telefon)
+        k ← k + 1
+    SonTekrar
 
-        rehber.alfabetikSirala();
-
-        System.out.println("\nSıralama sonrası:");
-        rehber.yazdir();
-    }
-}
-
+Bitir
